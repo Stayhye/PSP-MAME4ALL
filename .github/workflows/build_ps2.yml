@@ -22,7 +22,7 @@ jobs:
 
       - name: Compile MAME4All for PS2
         run: |
-          make target=gold
+          make -f Makefile.ps2 target=gold
 
       - name: Upload compiled ELF artifact
         uses: actions/upload-artifact@v4
