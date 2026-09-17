@@ -1,5 +1,7 @@
 TARGET = mame4all
 
+all: $(EE_BIN)
+
 ifeq ($(target), aged)
 MAME4ALL_AGED=1
 else
