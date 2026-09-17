@@ -16,9 +16,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Build Essentials
+      - name: Install All Essential Build Tools and Dependencies
         run: |
-          apk update && apk add --no-cache make build-base
+          apk update && apk add --no-cache \
+            make \
+            build-base \
+            m4 \
+            flex \
+            bison \
+            git \
+            wget \
+            curl \
+            unzip \
+            zip \
+            patch \
+            cmake \
+            pkgconfig \
+            zlib-dev \
+            automake \
+            autoconf \
+            libtool
 
       - name: Compile MAME4All for PS2
         run: |
