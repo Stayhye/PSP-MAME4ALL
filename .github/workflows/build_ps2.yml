@@ -1,0 +1,28 @@
+name: Build PS2 Port
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ps2dev/ps2dev:latest
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile MAME4All for PS2
+        run: |
+          # Change target configuration if needed (e.g., target=gold, target=classic, target=aged)
+          make target=gold
+
+      - name: Upload compiled ELF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mame4all-ps2-elf
+          path: mame4all.elf
