@@ -7,28 +7,28 @@ on:
     branches: [ main, master ]
 
 jobs:
-    build:
-      runs-on: ubuntu-latest
-      container:
-        image: ps2dev/ps2dev:latest
-        
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ps2dev/ps2dev:latest
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Install Build Essentials
-          run: |
-            apk update && apk add --no-cache make build-base
+      - name: Install Build Essentials
+        run: |
+          apk update && apk add --no-cache make build-base
 
-        - name: Compile MAME4All for PS2
-          run: |
-            export PS2DEV=/usr/local/ps2dev
-            export PS2SDK=$PS2DEV/ps2sdk
-            export PATH=$PATH:$PS2DEV/bin:$PS2DEV/ee/bin:$PS2SDK/bin
-            make -f Makefile.ps2 target=gold
+      - name: Compile MAME4All for PS2
+        run: |
+          export PS2DEV=/usr/local/ps2dev
+          export PS2SDK=$PS2DEV/ps2sdk
+          export PATH=$PATH:$PS2DEV/bin:$PS2DEV/ee/bin:$PS2SDK/bin
+          make -f Makefile.ps2 target=gold
 
-        - name: Upload compiled ELF artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: mame4all-ps2-elf
-            path: mame4all.elf
+      - name: Upload compiled ELF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mame4all-ps2-elf
+          path: mame4all.elf
