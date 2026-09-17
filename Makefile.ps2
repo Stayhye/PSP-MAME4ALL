@@ -18,7 +18,9 @@ include objs.mk
 
 # PS2SDK target configuration
 EE_BIN = $(TARGET).elf
-EE_OBJS = $(OBJS) $(OBJS_CPU) $(DRIVERS)
+
+# Filter out incompatible SuperH assembly files (fame.s) meant for SH-4 platforms
+EE_OBJS = $(filter-out src/fame/fame.o src/fame/fame.s, $(OBJS) $(OBJS_CPU) $(DRIVERS))
 
 # Optimization flags for MIPS R5900 (Emotion Engine)
 OPTFLAGS = -O3 -fomit-frame-pointer -ffast-math
@@ -37,7 +39,7 @@ MORE_CFLAGS += $(DEFS) -DUNZIP_SUPPORT -DZLIB -DHAVE_MKSTEMP -DACCEPT_SIZE_T=int
 EE_CFLAGS += $(MORE_CFLAGS)
 EE_CXXFLAGS += $(MORE_CFLAGS)
 
-# Linker library paths for PS2SDK ports (prevents -lSDL not found errors)
+# Linker library paths for PS2SDK ports
 EE_LDFLAGS += -L$(PS2SDK)/ports/lib
 
 # Link standard PS2 port libraries (SDL, SDL_mixer, zlib, math)
