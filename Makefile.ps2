@@ -28,11 +28,20 @@ MORE_CFLAGS = $(OPTFLAGS) $(OPT_CFLAGS)
 MORE_CFLAGS += -Isrc -Isrc/sdl -DPLAYSTATION2 -DROM_PREFIX="cdfs:/" -DDATA_PREFIX="cdfs:/"
 MORE_CFLAGS += -DLSB_FIRST -DSIGNED_SAMPLES -DINLINE="static inline"
 
+# Include PS2SDK ports headers for SDL and libraries
+MORE_CFLAGS += -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
+
 MORE_CFLAGS += -Isrc/z80 -Isrc/m6502 -Isrc/m6809 -Isrc/i86 -Isrc/tms34010 -Isrc/tms9900 
 MORE_CFLAGS += $(DEFS) -DUNZIP_SUPPORT -DZLIB -DHAVE_MKSTEMP -DACCEPT_SIZE_T=int
 
 EE_CFLAGS += $(MORE_CFLAGS)
 EE_CXXFLAGS += $(MORE_CFLAGS)
+
+# Linker library paths for PS2SDK ports (prevents -lSDL not found errors)
+EE_LDFLAGS += -L$(PS2SDK)/ports/lib
+
+# Link standard PS2 port libraries (SDL, SDL_mixer, zlib, math)
+EE_LIBS += -lSDL_mixer -lSDL -lz -lm
 
 FAZE_OPTS = -DAUTODOWN_IRQS -DUSE_MAME_FETCH -DMAME_CLOCK_FLUSHING
 
@@ -60,9 +69,6 @@ src/raze/faze/raze_1.o: src/raze/faze/raze_1.s
 src/raze/faze/raze_2.o: src/raze/faze/raze_2.s
 src/raze/faze/raze_3.o: src/raze/faze/raze_3.s
 src/raze/faze/raze_4.o: src/raze/faze/raze_4.s
-
-# Link standard PS2 port libraries (SDL, zlib, math)
-EE_LIBS += -lSDL_mixer -lSDL -lz -lm
 
 include $(PS2SDK)/samples/Makefile.pref
 include $(PS2SDK)/samples/Makefile.eeglobal
