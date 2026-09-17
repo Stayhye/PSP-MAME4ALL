@@ -12,6 +12,10 @@ endif
 
 RAZE_IS_FAZE=1
 
+# Preemptively neutralize incompatible non-MIPS assembly files (SuperH fame.s) 
+# so the assembler doesn't choke on architecture mismatches.
+DUMMY_CLEAN := $(shell rm -f src/fame/fame.s)
+
 # Include configurations and object lists FIRST so variables populate correctly
 include config.mk
 include objs.mk
@@ -19,7 +23,7 @@ include objs.mk
 # PS2SDK target configuration
 EE_BIN = $(TARGET).elf
 
-# Filter out incompatible SuperH assembly files (fame.s) meant for SH-4 platforms
+# Filter out incompatible object files if present
 EE_OBJS = $(filter-out src/fame/fame.o src/fame/fame.s, $(OBJS) $(OBJS_CPU) $(DRIVERS))
 
 # Optimization flags for MIPS R5900 (Emotion Engine)
