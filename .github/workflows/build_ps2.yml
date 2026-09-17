@@ -16,9 +16,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Build Essentials
+        run: |
+          apk update && apk add --no-cache make build-base
+
       - name: Compile MAME4All for PS2
         run: |
-          # Change target configuration if needed (e.g., target=gold, target=classic, target=aged)
           make target=gold
 
       - name: Upload compiled ELF artifact
