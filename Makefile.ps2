@@ -66,7 +66,7 @@ include objs.mk
 EE_LIBS += -lSDL_mixer -lSDL -lz -lm
 
 include $(PS2SDK)/samples/Makefile.pref
-include $(PS2SDK)/Makefile.eeglobal
+include $(PS2SDK)/samples/Makefile.eeglobal
 
 clean:
 	rm -f $(EE_OBJS) src/raze/faze/raze.s src/raze/faze/raze_1.s src/raze/faze/raze_2.s src/raze/faze/raze_3.s src/raze/faze/raze_4.s $(EE_BIN)
